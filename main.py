@@ -67,6 +67,7 @@ class Game:
         self.ship.blit_me()
         pygame.display.flip()
 
+    # Fires a bullet if less than three bullets are on the screen
     def fire_bullet(self):
         if len(self.bullets) < 3:
             new_bullet = Bullet(self)
@@ -77,6 +78,7 @@ class Game:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
 
+        # Prevents memory leak by deleting bullets which are off screen
         for bullet in self.bullets.copy():
             if bullet.rect.x < 0:
                 self.bullets.remove(bullet)
@@ -85,6 +87,7 @@ class Game:
     def ship_update(self):
         self.ship.move()
 
+    # Collision Detection
     def col_de(self):
         for bullet in self.bullets.copy():
             col_de = CollisionDetection(self, bullet)
@@ -101,6 +104,7 @@ class Game:
             self.col_de()
 
 
+# Runs the game
 game = Game()
 game.run_game()
 

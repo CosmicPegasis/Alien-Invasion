@@ -1,3 +1,4 @@
+#  Holds all the settings for the game
 class Settings:
     def __init__(self):
         # Screen Settings
