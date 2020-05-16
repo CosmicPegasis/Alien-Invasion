@@ -94,7 +94,7 @@ class Game:
         for bullet in self.bullets.copy():
             for alien in self.aliens:
                 col_de = CollisionDetection(self, bullet, alien)
-                col_de.detect(game)
+                col_de.detect(alien)
 
     def create_fleet(self):
         alien = Alien(self)
@@ -123,8 +123,13 @@ class Game:
         alien.rect.y = alien.y
 
         self.aliens.add(alien)
-    # Main
 
+    def check_victory(self):
+        if len(self.aliens) == 0:
+            self.program_running = False
+            print('You Won!')
+
+    # Main
     def run_game(self):
         self.create_fleet()
         while self.program_running:
@@ -134,6 +139,7 @@ class Game:
             self.ship_update()
             self.aliens.update()
             self.col_de()
+            self.check_victory()
 
 
 # Runs the game

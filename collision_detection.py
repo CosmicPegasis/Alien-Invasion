@@ -15,8 +15,8 @@ class CollisionDetection:
         self.w2 = game.settings.bullet_width
 
     # Collision Detection Logic
-    def detect(self, game):
+    def detect(self, alien):
         if self.x2 > self.x1 and self.x2 < self.x1 + self.w1 and \
                 self.y2 > self.y1 and self.y2 < self.y1 + self.h1:
-            game.program_running = False
-            print("You Won!")
+
+            alien.kill()

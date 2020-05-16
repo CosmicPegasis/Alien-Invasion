@@ -1,13 +1,12 @@
 import pygame
 from pygame.sprite import Sprite
-from settings import Settings
 
 
 class Alien(Sprite):
     def __init__(self, game):
         super().__init__()
-        self.settings = Settings()
         self.screen = game.screen
+        self.screen_rect = self.screen.get_rect()
 
         self.image = pygame.image.load("alien.bmp")
         self.rect = self.image.get_rect()
@@ -25,7 +24,7 @@ class Alien(Sprite):
         else:
             self.moving_up = False
 
-        if self.rect.y < self.settings.screen_height \
+        if self.rect.bottom < self.screen_rect.bottom \
                 and self.moving_up is False:
             self.rect.y += 1
 
