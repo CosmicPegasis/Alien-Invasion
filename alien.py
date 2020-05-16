@@ -1,38 +1,16 @@
 import pygame
-from settings import Settings
+from pygame.sprite import Sprite
 
-# Alien class
-class Alien:
-    # Inits an alien with settings from settings.py
+
+class Alien(Sprite):
     def __init__(self, game):
-        self.settings = Settings()
-        self.width = self.settings.alien_width
-        self.height = self.settings.alien_height
-
+        super().__init__()
         self.screen = game.screen
-        self.screen_rect = self.screen.get_rect()
-        self.color = self.settings.alien_color
 
-        # Makes a new rect from scratch
-        self.rect = pygame.Rect(
-            0, 0, self.width, self.height)
+        self.image = pygame.image.load("alien.bmp")
+        self.rect = self.image.get_rect()
 
-        self.rect.midleft = self.screen_rect.midleft
-        self.moving = True
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
 
-    # Draws an alien to screen
-    def draw_alien(self):
-        pygame.draw.rect(self.screen, self.color, self.rect)
-
-    # Updates the position of the alien
-    def update(self):
-        if self.rect.top > self.screen_rect.top and self.moving is True:
-            self.rect.y -= 1
-        else:
-            self.moving = False
-
-        if self.rect.bottom < self.screen_rect.bottom and self.moving is False:
-            self.rect.y += 1
-
-        else:
-            self.moving = True
+        self.x = float(self.rect.x)

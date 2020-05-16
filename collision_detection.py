@@ -1,12 +1,12 @@
 # Used for collision detection
 class CollisionDetection:
     # Brings in the rects froom game and bullet
-    def __init__(self, game, bullet):
+    def __init__(self, game, bullet, alien):
         # Alien
-        self.x1 = game.alien.rect.x
-        self.y1 = game.alien.rect.y
-        self.h1 = game.alien.height
-        self.w1 = game.alien.width
+        self.x1 = alien.rect.x
+        self.y1 = alien.rect.y
+        self.h1 = alien.rect.height
+        self.w1 = alien.rect.width
 
         # Bullet
         self.x2 = bullet.rect.x
@@ -19,4 +19,4 @@ class CollisionDetection:
         if self.x2 > self.x1 and self.x2 < self.x1 + self.w1 and \
                 self.y2 > self.y1 and self.y2 < self.y1 + self.h1:
             game.program_running = False
-            print('You won!')
+            print("You Won!")

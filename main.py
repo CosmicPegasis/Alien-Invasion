@@ -12,8 +12,7 @@ class Game:
         # Inits the Settings class
         self.settings = Settings()
         # Makes a display
-        self.screen = pygame.display.set_mode(
-            (self.settings.screen_width, self.settings.screen_height))
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         # Inits the ship
         self.ship = Ship(self)
         # Sets the program running state to true
@@ -22,7 +21,7 @@ class Game:
         self.bullets = pygame.sprite.Group()
 
         # Inits an alien
-        self.alien = Alien(self)
+        self.aliens = pygame.sprite.Group()
 
     # Checks for keyboard presses
 
@@ -50,6 +49,9 @@ class Game:
         if event.key == pygame.K_SPACE:
             self.fire_bullet()
 
+        if event.key == pygame.K_q:
+            self.program_running = False
+
     # All registered events when a key is released
 
     def keyup_events(self, event):
@@ -63,8 +65,9 @@ class Game:
     def update_screen(self):
         self.screen.fill(self.settings.screen_color)
         self.update_bullets()
-        self.alien.draw_alien()
         self.ship.blit_me()
+        self.create_fleet()
+        self.aliens.draw(self.screen)
         pygame.display.flip()
 
     # Fires a bullet if less than three bullets are on the screen
@@ -90,17 +93,46 @@ class Game:
     # Collision Detection
     def col_de(self):
         for bullet in self.bullets.copy():
-            col_de = CollisionDetection(self, bullet)
-            col_de.detect(game)
+            for alien in self.aliens:
+                col_de = CollisionDetection(self, bullet, alien)
+                col_de.detect(game)
 
+    def create_fleet(self):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        ship_width = self.ship.rect.width
+
+        available_space_x = self.settings.screen_width - alien_height - \
+            ship_width
+        num_aliens = available_space_x // (alien_width * 2)
+
+        available_space_y = self.settings.screen_height - alien_height * 2
+        num_rows = available_space_y // (alien_height)
+
+        for row_number in range(num_rows):
+            for alien_number in range(num_aliens):
+                self.create_alien(alien_number, row_number)
+
+    def create_alien(self, alien_number, row_number):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+
+        alien.y = alien_height + (2 * alien_height * row_number)
+        alien.x = alien_width + (2 * alien_width * alien_number)
+
+        alien.rect.x = alien.x
+        alien.rect.y = alien.y
+
+        self.aliens.add(alien)
     # Main
+
     def run_game(self):
         while self.program_running:
             self.check_events()
             self.bullets.update()
             self.update_screen()
             self.ship_update()
-            self.alien.update()
+            self.aliens.update()
             self.col_de()
 
 
