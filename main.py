@@ -20,7 +20,7 @@ class Game:
         # Defines a new group for bullet sprites
         self.bullets = pygame.sprite.Group()
 
-        # Inits an alien
+        # Inits an alien group
         self.aliens = pygame.sprite.Group()
 
     # Checks for keyboard presses
@@ -66,7 +66,6 @@ class Game:
         self.screen.fill(self.settings.screen_color)
         self.update_bullets()
         self.ship.blit_me()
-        self.create_fleet()
         self.aliens.draw(self.screen)
         pygame.display.flip()
 
@@ -127,6 +126,7 @@ class Game:
     # Main
 
     def run_game(self):
+        self.create_fleet()
         while self.program_running:
             self.check_events()
             self.bullets.update()
