@@ -30,3 +30,16 @@ class Alien(Sprite):
 
         else:
             self.moving_up = True
+
+    def check_edges(self):
+        if self.rect.top == self.screen_rect.top + 1:
+            self.touching_top_edge = True
+
+        else:
+            self.touching_top_edge = False
+
+        if self.rect.bottom == self.screen_rect.bottom - 1:
+            self.touching_bottom_edge = True
+
+        else:
+            self.touching_bottom_edge = False
